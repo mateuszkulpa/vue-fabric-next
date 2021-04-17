@@ -1,11 +1,10 @@
 <template>
   <fabric-canvas
     :width="1000"
-    :height="500"
+    :height="700"
     background-color="rgba(0,0,0,0.05)"
   >
     <fabric-textbox
-      v-if="textRendered"
       v-model:text="textboxOptions.text"
       v-model:fontSize="textboxOptions.fontSize"
       v-model:left="textboxOptions.left"
@@ -16,32 +15,60 @@
 
     <fabric-rectangle :height="100" :width="100" :left="300" :top="100" />
 
-    <fabric-image v-if="imgRef" :image="imgRef" :width="200" :height="200" />
+    <fabric-image
+      v-if="imgRef"
+      v-model:image="imgRef"
+      v-model:width="imageOptions.width"
+      v-model:height="imageOptions.height"
+      v-model:left="imageOptions.left"
+      v-model:top="imageOptions.top"
+      v-model:scaleX="imageOptions.scaleX"
+      v-model:filters="imageOptions.filters"
+    />
   </fabric-canvas>
 
-  <img src="@/assets/photo.jpg" alt="" ref="imgRef" />
-  <input type="checkbox" v-model="textRendered" />
+  <img src="@/assets/photo.jpg" alt="" ref="imgRef" style="display: none" />
+
   <input type="number" v-model.number="textboxOptions.fontSize" />
   <input type="text" v-model="textboxOptions.text" />
+  <br />
   <pre>{{ textboxOptions }}</pre>
+  <br />
+  <pre>{{ imageOptions }}</pre>
+  {{ brightness }}
+  <br />
+  <input type="range" step="0.01" min="0" max="1" v-model.number="brightness" />
 </template>
 
 <script lang="ts">
-import { ITextboxOptions } from "fabric/fabric-impl";
-import { defineComponent, reactive, ref, onMounted } from "vue";
+import { ITextboxOptions, IImageOptions } from "fabric/fabric-impl";
+import { defineComponent, ref } from "vue";
+import fabric from "./components/fabric";
+
 export default defineComponent({
   setup() {
-    const textboxOptions = reactive<ITextboxOptions>({
+    const textboxOptions = ref<ITextboxOptions>({
       text: "Sample text...",
       fontSize: 48,
       left: 100,
       top: 100,
     });
 
-    const textRendered = ref(false);
+    var brightness = ref(0.75);
+    const imageOptions = ref<IImageOptions>({
+      left: 200,
+      top: 300,
+      width: 400,
+      height: 200,
+      scaleX: 1.5,
+      filters: [
+        new fabric.Image.filters.Brightness({ brightness: brightness }),
+      ],
+    });
+
     const imgRef = ref<HTMLImageElement | null>(null);
 
-    return { textboxOptions, textRendered, imgRef };
+    return { textboxOptions, imageOptions, brightness, imgRef };
   },
 });
 </script>

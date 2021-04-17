@@ -19,8 +19,8 @@ export default defineComponent({
       default: 2 * Math.PI,
     },
   },
-  async setup(props) {
-    await useFabricCanvas(props, () => {
+  setup(props) {
+    useFabricCanvas(props, () => {
       return new fabric.Circle({
         ...props,
       } as ICircleOptions);

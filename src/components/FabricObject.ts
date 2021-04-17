@@ -105,6 +105,7 @@ export const useFabricCanvas = async (
     if (!stateProperties) return;
 
     Object.values(stateProperties).forEach((key) => {
+      if (!Object.keys(props).includes(key)) return;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       currentInstance?.emit(`update:${key}`, renderedObject.get(key as any));
     });

@@ -40,8 +40,8 @@ export default defineComponent({
     },
     textBackgroundColor: String,
   },
-  async setup(props) {
-    await useFabricCanvas(props, () => {
+  setup(props) {
+    useFabricCanvas(props, () => {
       return new fabric.Textbox(props.text, {
         ...props,
       } as ITextboxOptions);
