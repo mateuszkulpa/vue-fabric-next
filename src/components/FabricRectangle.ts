@@ -1,4 +1,3 @@
-<script lang="ts">
 import { defineComponent } from "vue";
 import { useFabricCanvas, withCommonObjectProps } from "./FabricObject";
 import fabric from "./fabric";
@@ -18,4 +17,3 @@ export default defineComponent({
     return () => null;
   },
 });
-</script>

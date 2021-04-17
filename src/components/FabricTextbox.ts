@@ -1,4 +1,3 @@
-<script lang="ts">
 import { defineComponent } from "vue";
 import { useFabricCanvas, withCommonObjectProps } from "./FabricObject";
 import fabric from "./fabric";
@@ -41,8 +40,8 @@ export default defineComponent({
     },
     textBackgroundColor: String,
   },
-  setup(props) {
-    useFabricCanvas(props, () => {
+  async setup(props) {
+    await useFabricCanvas(props, () => {
       return new fabric.Textbox(props.text, {
         ...props,
       } as ITextboxOptions);
@@ -51,4 +50,3 @@ export default defineComponent({
     return () => null;
   },
 });
-</script>

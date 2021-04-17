@@ -84,9 +84,9 @@ export const withCommonObjectProps = () => {
   };
 };
 
-export const useFabricCanvas = (
+export const useFabricCanvas = async (
   props: Record<string, unknown>,
-  renderFn: () => fabric.Object
+  renderFn: (canvas: fabric.Canvas) => fabric.Object
 ) => {
   const currentInstance = getCurrentInstance();
   const canvasRef = inject<Ref<fabric.Canvas | null>>(
@@ -97,7 +97,7 @@ export const useFabricCanvas = (
     throw new Error(`Cannot render object - no parent canvas`);
 
   const canvas = canvasRef.value;
-  const renderedObject = renderFn();
+  const renderedObject = renderFn(canvas);
   canvas.add(renderedObject);
 
   const onObjectModified = () => {
@@ -122,14 +122,16 @@ export const useFabricCanvas = (
     renderedObject.off("scaled", onObjectModified);
   };
 
-  watch(
-    () => props,
-    (newProps) => {
-      renderedObject.set(newProps);
-      canvas.renderAll();
-    },
-    { deep: true }
-  );
+  Object.keys(props).forEach((key) => {
+    watch(
+      () => props[key],
+      (propValue) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        renderedObject.set(key as any, propValue);
+        canvas.renderAll();
+      }
+    );
+  });
 
   onMounted(() => {
     registerEvents();

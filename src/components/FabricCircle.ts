@@ -1,4 +1,3 @@
-<script lang="ts">
 import { defineComponent } from "vue";
 import { useFabricCanvas, withCommonObjectProps } from "./FabricObject";
 import fabric from "./fabric";
@@ -20,8 +19,8 @@ export default defineComponent({
       default: 2 * Math.PI,
     },
   },
-  setup(props) {
-    useFabricCanvas(props, () => {
+  async setup(props) {
+    await useFabricCanvas(props, () => {
       return new fabric.Circle({
         ...props,
       } as ICircleOptions);
@@ -30,4 +29,3 @@ export default defineComponent({
     return () => null;
   },
 });
-</script>

@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   h,
@@ -103,4 +102,3 @@ export default defineComponent({
       ]);
   },
 });
-</script>
