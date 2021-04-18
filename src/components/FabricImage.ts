@@ -19,8 +19,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const filters = [...props.filters];
-
     useFabricCanvas(props, (canvas) => {
       const image = new fabric.Image(props.image, {
         ...props,
@@ -28,14 +26,17 @@ export default defineComponent({
       } as IImageOptions);
 
       const applyFilters = () => {
-        image.applyFilters(filters);
+        image.applyFilters([]);
+        image.applyFilters(props.filters);
         canvas.renderAll();
       };
+
       watch(() => props.filters, applyFilters, { deep: true });
 
       if (props.image instanceof HTMLImageElement) {
         // eslint-disable-next-line vue/no-mutating-props
         props.image.onload = () => {
+          applyFilters();
           canvas.renderAll();
         };
       }

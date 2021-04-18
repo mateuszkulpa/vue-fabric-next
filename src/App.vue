@@ -41,13 +41,12 @@
 </template>
 
 <script lang="ts">
-import { ITextboxOptions, IImageOptions } from "fabric/fabric-impl";
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import fabric from "./components/fabric";
 
 export default defineComponent({
   setup() {
-    const textboxOptions = ref<ITextboxOptions>({
+    const textboxOptions = ref({
       text: "Sample text...",
       fontSize: 48,
       left: 100,
@@ -55,15 +54,17 @@ export default defineComponent({
     });
 
     var brightness = ref(0.75);
-    const imageOptions = ref<IImageOptions>({
+    const imageOptions = ref({
       left: 200,
       top: 300,
       width: 400,
       height: 200,
       scaleX: 1.5,
-      filters: [
-        new fabric.Image.filters.Brightness({ brightness: brightness }),
-      ],
+      filters: computed(() => [
+        new fabric.Image.filters.Brightness({
+          brightness: brightness.value,
+        }),
+      ]),
     });
 
     const imgRef = ref<HTMLImageElement | null>(null);

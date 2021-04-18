@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import VueFabric from "./components/VueFabric";
+import VueFabric from "./components";
 
 import App from "@/App.vue";
 
